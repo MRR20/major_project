@@ -3,7 +3,7 @@ import numpy as np
 import yfinance as yf
 import sys
 
-def stocks_data(ticker: str, period: str):
+def stocks_data(ticker: str, start_date: str, end_date: str):
     """
     Args:
 
@@ -16,7 +16,7 @@ def stocks_data(ticker: str, period: str):
     stock = yf.Ticker(ticker)
 
     # get history data of the stock (already in pandas DataFrame)
-    data_raw = stock.history(period=period)
+    data_raw = stock.history(start=start_date, end=end_date)
 
     # remove unncessary columns ['Dividends', 'Stock Splits']
     data_raw = data_raw.drop(['Dividends', 'Stock Splits'], axis=1)
@@ -124,9 +124,11 @@ if __name__ == "__main__":
             "WMT",  # Walmart
             "DIS" #Disney
         ]
-    period = "10y"
+    # period = "10y"
+    start_date = "2016-01-01"
+    end_date = "2020-08-05"
 
     for ticker in tickers:
-        data = stocks_data(ticker, period)
-        data.to_csv(f"./stocks_data/{ticker}_data.csv")
+        data = stocks_data(ticker, start_date, end_date)
+        data.to_csv(f"./trading_data/{ticker}_data.csv")
 
